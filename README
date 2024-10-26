@@ -1,0 +1,44 @@
+Heuristic for MIP 2022 competition.
+
+Requirements
+------------
+
+- CMake >= 3.12
+- CPLEX >= 12.10
+- Recent C++ compiler supporting some C++20 (gcc >= 10.0 and clang >= 11.0)
+
+Build
+-----
+
+Users have to specify a path to the CPLEX installation by passing the
+setting the cmake variable CPLEX_ROOT_DIR. Except for this, compilations
+follows the usual cmake steps:
+
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCPLEX_ROOT_DIR=${PATH_TO_CPLEX_INSTALLATION} ..
+
+Usage
+-----
+
+There are two binaries: fpr and tryfpr.
+The first implement the overall portfolio approach, while the second
+runs only a single variant at the time.
+Usage is quite similar. For example:
+
+./tryfpr run=dfs strategy=lp timeLimit=1000 instance.mps
+
+Runs and strategies can be specified only for the tryfpr binary,
+as fpr will just run the hard-coded portfolio (and ignore run
+and strategy settings from the command line). For tryfpr,
+you can set either "run" or "strategy" to an empty value to get
+the list of available values. Resource limits (like time limit,
+threads, etc...) can be set for both binaries.
+
+It is also possible to save the best solution found (if any) to a file
+by just passing the option 'saveSol=1'. This will save the solution to
+a file named instance.sol.
+
+The solution itself can be checked with the solchecker binary:
+
+./solchecker instance.mps instance.sol
